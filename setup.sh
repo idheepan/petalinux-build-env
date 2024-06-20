@@ -1,5 +1,5 @@
 #! /bin/bash
-
+FILE_URL_BASE="https://raw.githubusercontent.com/idheepan/petalinux-build-env/main"
 read -p "Do you want create a petalinux build directory? (y/n): " user_input
 if [ "$(echo $user_input | tr '[:upper:]' '[:lower:]')" = "y" ] || [ "$(echo $user_input | tr '[:upper:]' '[:lower:]')" = "yes" ]; then
     mkdir -p petalinux/build-assets \
@@ -66,7 +66,13 @@ else
 fi
 
 # Create the docker file
-
+if [ ! -f "Dockerfile" ]; then
+    curl -O ${FILE_URL_BASE}/Dockerfile
+    curl -O ${FILE_URL_BASE}/.bashrc
+    curl -O ${FILE_URL_BASE}/user-account.txt
+else
+    echo "Using the existing Dockerfile. Not overwriting"
+fi
 
 if [ -f "./build-assets/$INSTALLER_BIN" ]; then
     docker build --progress plain -t petalinux-build-env .
