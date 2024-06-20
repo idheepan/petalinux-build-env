@@ -48,10 +48,10 @@ else
     newgrp docker
 fi
 
-ALIAS_STRING_1="alias build-env='cd \${PETALINUX_BUILD_DIR}; docker build --progress plain -t petalinux-build-env -f container/Dockerfile .'"
-ALIAS_STRING_2="alias start-build-env='docker run -v \${PETALINUX_BUILD_DIR}/build-outputs/projects:/home/petalinux/projects \\
-        -v \${PETALINUX_BUILD_DIR}/build-outputs/cache/sstate-cache:/home/petalinux/cache/sstate-cache \\
-        -v \${PETALINUX_BUILD_DIR}/build-outputs/cache/downloads:/home/petalinux/cache/downloads \\
+ALIAS_STRING_1="alias build-env='docker build --progress plain -t petalinux-build-env -f container/Dockerfile .'"
+ALIAS_STRING_2="alias start-build-env='docker run -v ./build-outputs/projects:/home/petalinux/projects \\
+        -v ./build-outputs/cache/sstate-cache:/home/petalinux/cache/sstate-cache \\
+        -v ./build-outputs/cache/downloads:/home/petalinux/cache/downloads \\
         -it --rm petalinux-build-env bash'"
 BASHRC="$HOME/.bashrc"
 
@@ -80,3 +80,9 @@ else
     echo "***** Cannot find $INSTALLER_BIN. Exiting ****"
     exit
 fi
+
+FILE_PATH=$(pwd)
+echo "You can now switch to the build directory and run start-build-env"
+echo "=============================="
+echo "cd ${FILE_PATH} && start-build-env"
+echo "=============================="
