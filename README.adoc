@@ -1,0 +1,6 @@
+= Petalinux Build Environment Builder
+
+This repo helps you create a docker container to start building your own custom petalinux builds.
+
+== Quickstart
+curl -s "https://github.com/idheepan/petalinux-build-env/script.sh" | bash
