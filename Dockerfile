@@ -50,6 +50,7 @@ RUN apt-get install -y \
     bc \
     lsb-release \
     libtinfo5 \
+    dnsutils \
     sudo 
 
 RUN dpkg-reconfigure tzdata
