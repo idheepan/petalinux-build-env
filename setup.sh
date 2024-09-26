@@ -1,29 +1,10 @@
 #! /bin/bash
 FILE_URL_BASE="https://raw.githubusercontent.com/idheepan/petalinux-build-env/main"
-read -p "Do you want create a petalinux build directory? (y/n): " user_input
-if [ "$(echo $user_input | tr '[:upper:]' '[:lower:]')" = "y" ] || [ "$(echo $user_input | tr '[:upper:]' '[:lower:]')" = "yes" ]; then
-    mkdir -p petalinux/build-assets \
-        petalinux/build-outputs/cache/downloads \
-        petalinux/build-outputs/cache/sstate-cache \
-        petalinux/build-outputs/projects
-    cd petalinux
-else
-    read -p "Where is existing petalinux build directory? [./petalinux]: " user_input
-    user_input=${user_input:-./petalinux}
-    if [ -d "$user_input/build-assets" ]; then
-        echo "Directory $user_input will be used to store assets and output"
-    else
-        echo "$user_input was not found. Cannot continue"
-        exit
-    fi
-    cd $user_input
-fi
-
 INSTALLER_BIN="petalinux-v2024.1-05202009-installer.run"
-if [ ! -f "./build-assets/$INSTALLER_BIN" ]; then
-    read -p "$INSTALLER_BIN was not found in ./build-assets. Copy it and press enter to continue."
-    if [ ! -f "./build-assets/$INSTALLER_BIN" ]; then
-        echo "The file ./build-assets/$INSTALLER_BIN cannot be found. Exiting."
+if [ ! -f "./$INSTALLER_BIN" ]; then
+    read -p "$INSTALLER_BIN was not found. Copy it in the current directory and press enter to continue."
+    if [ ! -f "./$INSTALLER_BIN" ]; then
+        echo "The file ./$INSTALLER_BIN cannot be found. Exiting."
         exit
     fi
 fi
@@ -74,7 +55,7 @@ else
     echo "Using the existing Dockerfile. Not overwriting"
 fi
 
-if [ -f "./build-assets/$INSTALLER_BIN" ]; then
+if [ -f "./$INSTALLER_BIN" ]; then
     docker build --progress plain -t petalinux-build-env .
 else
     echo "***** Cannot find $INSTALLER_BIN. Exiting ****"
